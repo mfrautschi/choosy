@@ -1,24 +1,20 @@
 package ch.swat.choosy.service;
 
+import ch.swat.choosy.Participant;
 import ch.swat.choosy.bo.TeamVariant;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Map;
 
+import static ch.swat.choosy.Participant.*;
+
 class TeamGenerationServiceTest {
-    static String participants2 = "Bruno;Josef";
-    static String participants3 = "Bruno;Josef;Alina";
-    static String participants4 = "Bruno;Josef;Alina;Michelle";
-    static String participants5 = "Bruno;Josef;Alina;Michelle;Tom";
-    static String participants6 = "Bruno;Josef;Alina;Michelle;Tom;Luca";
-    static String participants7 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena";
-    static String participants8 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina";
-    static String participants9 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina;Bernhard";
-    static String participants10 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina;Bernhard;Marco";
     private TeamGenerationService teamGenerationService;
 
     @BeforeEach
@@ -26,9 +22,44 @@ class TeamGenerationServiceTest {
         teamGenerationService = new TeamGenerationService();
     }
 
+
+    @ParameterizedTest
+    @EnumSource(Participant.class)
+    void generateAllPossibleTeamsNoOneTeams(Participant participant) {
+        TeamVariant variant = TeamVariant.valueOf(participant.names().split(";").length);
+        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generatePossibleTeam(participant.names(), variant);
+        Assertions.assertEquals(Collections.emptyMap(), map);
+    }
+
+    @ParameterizedTest
+    @EnumSource(Participant.class)
+    void generateAllPossibleTeamsEvenParticipantCount(Participant participant) {
+        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
+        int length = participant.names().split(";").length;
+        if (length % 2 == 0 && length != 2) {
+            Assertions.assertNotEquals(Collections.emptyMap(), map);
+            Assertions.assertTrue(map.containsKey(TeamVariant.T2ER));
+        } else {
+            Assertions.assertFalse(map.containsKey(TeamVariant.T2ER));
+        }
+    }
+
+    @ParameterizedTest
+    @EnumSource(Participant.class)
+    void generateAllPossibleTeamsRowOfThreeParticipantCount(Participant participant) {
+        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
+        int length = participant.names().split(";").length;
+        if (length % 3 == 0 && length != 3) {
+            Assertions.assertNotEquals(Collections.emptyMap(), map);
+            Assertions.assertTrue(map.containsKey(TeamVariant.T3ER));
+        } else {
+            Assertions.assertFalse(map.containsKey(TeamVariant.T3ER));
+        }
+    }
+
     @Test
     void generateAllPossibleTeams() {
-        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participants10);
+        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participants10.names());
         Assertions.assertNotEquals(Collections.emptyMap(), map);
         printMap(map);
     }
@@ -46,21 +77,21 @@ class TeamGenerationServiceTest {
 
     @Test
     void generatePossible2erTeam() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T2ER);
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T2ER);
         Assertions.assertNotEquals(Collections.emptyMap(), teams);
         printMap(teams);
     }
 
     @Test
     void generatePossible5erTeam() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T5ER);
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T5ER);
         Assertions.assertNotEquals(Collections.emptyMap(), teams);
         printMap(teams);
     }
 
     @Test
     void generatePossibleTeamWrongTeamVariant() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T4ER);
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T4ER);
         Assertions.assertEquals(Collections.emptyMap(), teams);
     }
 
@@ -69,11 +100,11 @@ class TeamGenerationServiceTest {
         LinkedList<TeamVariant> estimatedResult = new LinkedList<>();
         estimatedResult.add(TeamVariant.T2ER);
         estimatedResult.add(TeamVariant.T5ER);
-        Assertions.assertEquals(estimatedResult, teamGenerationService.calculatePossibleTeamVariants(participants10.split(";")));
+        Assertions.assertEquals(estimatedResult, teamGenerationService.calculatePossibleTeamVariants(participants10.names().split(";")));
     }
 
     @Test
     void calculatePossibleTeamVariantsNegativeTest() {
-        Assertions.assertFalse(teamGenerationService.calculatePossibleTeamVariants(participants10.split(";")).contains(TeamVariant.T10ER));
+        Assertions.assertFalse(teamGenerationService.calculatePossibleTeamVariants(participants10.names().split(";")).contains(TeamVariant.T10ER));
     }
 }
