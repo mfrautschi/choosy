@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.Map;
 
 class TeamGenerationServiceTest {
-    private TeamGenerationService teamGenerationService;
     static String participants2 = "Bruno;Josef";
     static String participants3 = "Bruno;Josef;Alina";
     static String participants4 = "Bruno;Josef;Alina;Michelle";
@@ -20,6 +19,7 @@ class TeamGenerationServiceTest {
     static String participants8 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina";
     static String participants9 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina;Bernhard";
     static String participants10 = "Bruno;Josef;Alina;Michelle;Tom;Luca;Elena;Nina;Bernhard;Marco";
+    private TeamGenerationService teamGenerationService;
 
     @BeforeEach
     void beforeEach() {
@@ -27,17 +27,17 @@ class TeamGenerationServiceTest {
     }
 
     @Test
-    void generateAllPossibleTeams(){
-        Map<TeamVariant, Map<String,String>> map = teamGenerationService.generateAllPossibleTeams(participants10);
+    void generateAllPossibleTeams() {
+        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participants10);
         Assertions.assertNotEquals(Collections.emptyMap(), map);
         printMap(map);
     }
 
-    private void printMap(Map<TeamVariant, Map<String,String>> map){
-        for(TeamVariant variant : map.keySet()){
+    private void printMap(Map<TeamVariant, Map<String, String>> map) {
+        for (TeamVariant variant : map.keySet()) {
             Map<String, String> teams = map.get(variant);
             System.out.println("Team Variant " + variant.toString());
-            for (String key : teams.keySet()){
+            for (String key : teams.keySet()) {
                 System.out.println("In Team " + key + " are " + teams.get(key));
             }
             System.out.println("##################");
@@ -45,8 +45,10 @@ class TeamGenerationServiceTest {
     }
 
     @Test
-    void generatePossibleTeam(){
-        Assertions.assertEquals(Collections.emptyMap(), teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T2ER));
+    void generatePossibleTeam() {
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T2ER);
+        Assertions.assertNotEquals(Collections.emptyMap(), teams);
+        printMap(teams);
     }
 
     @Test
