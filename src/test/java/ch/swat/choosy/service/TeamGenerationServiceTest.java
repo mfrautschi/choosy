@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Map;
 
 class TeamGenerationServiceTest {
     private TeamGenerationService teamGenerationService;
@@ -28,7 +29,20 @@ class TeamGenerationServiceTest {
 
     @Test
     void generateAllPossibleTeams(){
-        Assertions.assertEquals(Collections.emptyMap(), teamGenerationService.generateAllPossibleTeams(participants10));
+        Map<TeamVariant, Map<String,String>> map = teamGenerationService.generateAllPossibleTeams(participants10);
+        Assertions.assertNotEquals(Collections.emptyMap(), map);
+        printMap(map);
+    }
+
+    private void printMap(Map<TeamVariant, Map<String,String>> map){
+        for(TeamVariant variant : map.keySet()){
+            Map<String, String> teams = map.get(variant);
+            System.out.println("Team Variant " + variant.toString());
+            for (String key : teams.keySet()){
+                System.out.println("In Team " + key + " are " + teams.get(key));
+            }
+            System.out.println("##################");
+        }
     }
 
     @Test
