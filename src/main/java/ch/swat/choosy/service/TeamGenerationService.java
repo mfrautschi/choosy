@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TeamGenerationService {
     public Map<TeamVariant, Map<String, String>> generateAllPossibleTeams(String participants) {
         var variants = calculatePossibleTeamVariants(participants.split(";"));
-        Map<TeamVariant, Map<String, String>> assignedTeams = new HashMap<>();
+        Map<TeamVariant, Map<String, String>> assignedTeams = new EnumMap<>(TeamVariant.class);
         for (TeamVariant variant : variants) {
             assignedTeams.put(variant, assignParticipantsToTeams(variant, participants.split(";")));
         }
