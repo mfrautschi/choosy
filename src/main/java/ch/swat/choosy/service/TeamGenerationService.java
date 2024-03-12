@@ -17,13 +17,6 @@ public class TeamGenerationService {
         return assignedTeams;
     }
 
-    /**
-     * Try it with Iterator
-     *
-     * @param variant
-     * @param participants
-     * @return
-     */
     private Map<String, String> assignParticipantsToTeams(TeamVariant variant, String[] participants) {
         Map<String, String> teams = new HashMap<>();
         List<String> part = new ArrayList<>(Arrays.stream(participants).toList());
@@ -42,7 +35,11 @@ public class TeamGenerationService {
     }
 
     public Map<TeamVariant, Map<String, String>> generatePossibleTeam(String participants, TeamVariant variant) {
-        return Collections.emptyMap();
+        Map<TeamVariant, Map<String, String>> assignedTeams = new EnumMap<>(TeamVariant.class);
+        if(calculatePossibleTeamVariants(participants.split(";")).contains(variant)){
+            assignedTeams.put(variant, assignParticipantsToTeams(variant, participants.split(";")));
+        }
+        return assignedTeams;
     }
 
     public List<TeamVariant> calculatePossibleTeamVariants(String[] participants) {
