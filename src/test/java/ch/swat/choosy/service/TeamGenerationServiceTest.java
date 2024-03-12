@@ -45,10 +45,23 @@ class TeamGenerationServiceTest {
     }
 
     @Test
-    void generatePossibleTeam() {
+    void generatePossible2erTeam() {
         Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T2ER);
         Assertions.assertNotEquals(Collections.emptyMap(), teams);
         printMap(teams);
+    }
+
+    @Test
+    void generatePossible5erTeam() {
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T5ER);
+        Assertions.assertNotEquals(Collections.emptyMap(), teams);
+        printMap(teams);
+    }
+
+    @Test
+    void generatePossibleTeamWrongTeamVariant() {
+        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10, TeamVariant.T4ER);
+        Assertions.assertEquals(Collections.emptyMap(), teams);
     }
 
     @Test
