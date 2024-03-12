@@ -21,13 +21,13 @@ public class TeamGenerationController {
 
     @PostMapping(path="/generate")
     public String generateTeamVaraiation(@RequestParam String participants, @RequestParam String teamvariant, Model model){
-        Map<String, String> teams;
+        Map<TeamVariant,Map<String, String>> teams;
         if(teamvariant.equals("TALL")){
             teams = teamGenerationService.generateAllPossibleTeams(participants);
         } else {
             teams = teamGenerationService.generatePossibleTeam(participants, TeamVariant.valueOf(teamvariant));
         }
-        model.addAttribute("files", teams);
+        model.addAttribute("teams", teams);
         return "generationResult";
     }
 }
