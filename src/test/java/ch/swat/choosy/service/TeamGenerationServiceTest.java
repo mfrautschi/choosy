@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,12 +18,12 @@ import static ch.swat.choosy.Participant.*;
 
 class TeamGenerationServiceTest {
     private TeamGenerationService teamGenerationService;
+    private Logger logger = LoggerFactory.getLogger(TeamGenerationServiceTest.class);
 
     @BeforeEach
     void beforeEach() {
         teamGenerationService = new TeamGenerationService();
     }
-
 
     @ParameterizedTest
     @EnumSource(Participant.class)
@@ -67,11 +69,11 @@ class TeamGenerationServiceTest {
     private void printMap(Map<TeamVariant, Map<String, String>> map) {
         for (TeamVariant variant : map.keySet()) {
             Map<String, String> teams = map.get(variant);
-            System.out.println("Team Variant " + variant.toString());
+            logger.info("Team Variant " + variant.toString());
             for (String key : teams.keySet()) {
-                System.out.println("In Team " + key + " are " + teams.get(key));
+                logger.info("In Team " + key + " are " + teams.get(key));
             }
-            System.out.println("##################");
+            logger.info("##################");
         }
     }
 
