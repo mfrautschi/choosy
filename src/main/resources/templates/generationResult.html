@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Tournament Teams</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/GenerationResult.css}"/>
 </head>
 <body>
-
+<h2>Here are your Teams</h2>
+<div th:each="team1: ${teams.entrySet()}" th:with="team2=${team1.getValue()}">
+    <table>
+        <caption th:text="${team1.getKey()}"/>
+        <thead>
+        <tr>
+            <th scope="col">TeamNr</th>
+            <th scope="col">Members</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="team3: ${team2.entrySet()}">
+            <td th:text="${team3.getKey()}"/>
+            <td th:text="${team3.getValue()}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
