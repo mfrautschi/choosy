@@ -109,4 +109,9 @@ class TeamGenerationServiceTest {
     void calculatePossibleTeamVariantsNegativeTest() {
         Assertions.assertFalse(teamGenerationService.calculatePossibleTeamVariants(participants10.names().split(";")).contains(TeamVariant.T10ER));
     }
+
+    @Test
+    void testTeamVariantNull(){
+        Assertions.assertEquals(null, TeamVariant.valueOf(105879));
+    }
 }
