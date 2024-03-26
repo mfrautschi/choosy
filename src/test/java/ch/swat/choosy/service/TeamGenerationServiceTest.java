@@ -18,7 +18,7 @@ import static ch.swat.choosy.Participant.*;
 
 class TeamGenerationServiceTest {
     private TeamGenerationService teamGenerationService;
-    private Logger logger = LoggerFactory.getLogger(TeamGenerationServiceTest.class);
+    private final Logger logger = LoggerFactory.getLogger(TeamGenerationServiceTest.class);
 
     @BeforeEach
     void beforeEach() {
@@ -112,6 +112,6 @@ class TeamGenerationServiceTest {
 
     @Test
     void testTeamVariantNull(){
-        Assertions.assertEquals(null, TeamVariant.valueOf(105879));
+        Assertions.assertNull(TeamVariant.valueOf(105879));
     }
 }
