@@ -14,10 +14,10 @@ import java.util.Map;
 
 @Controller
 public class TeamGenerationController {
-    TeamGenerationService teamGenerationService;
+    final TeamGenerationService teamGenerationService;
     private final Logger logger = LoggerFactory.getLogger(TeamGenerationController.class);
 
-    private TeamGenerationController(TeamGenerationService teamGenerationService){
+    public TeamGenerationController(TeamGenerationService teamGenerationService){
         this.teamGenerationService = teamGenerationService;
     }
 
@@ -36,7 +36,7 @@ public class TeamGenerationController {
         } else {
             teams = teamGenerationService.generatePossibleTeam(participants, TeamVariant.valueOf(teamvariant));
         }
-        teams.forEach((key, value) -> logger.debug(key + ":" + value));
+        teams.forEach((key, value) -> logger.debug("{}:{}", key, value));
         model.addAttribute("teams", teams);
         return "generationResult";
     }

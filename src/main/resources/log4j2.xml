@@ -29,7 +29,7 @@
         </Root>
 
         <!-- LOG "com.baeldung*" at TRACE level -->
-        <Logger name="com.baeldung" level="trace"></Logger>
+        <Logger name="com.baeldung" level="trace" />
     </Loggers>
 
 </Configuration>
