@@ -8,33 +8,37 @@
 <body>
 <h1>Civ Chooser</h1>
 <form method="POST" action="#">
-    <select id="civ-selection" name="civs" size="5">
-        <option value="aztec">Aztec</option>
-        <option value="british">British</option>
-        <option value="china">China</option>
-        <option value="dutch">Dutch</option>
-        <option value="ethiopia">Ethiopia</option>
-        <option value="french">French</option>
-        <option value="germany">Germany</option>
-        <option value="haudenosaunee">Haudenosaunee</option>
-        <option value="hausa">Hausa</option>
-        <option value="inca">Inca</option>
-        <option value="india">India</option>
-        <option value="italy">Italy</option>
-        <option value="japan">Japan</option>
-        <option value="lakota">Lakota</option>
-        <option value="malta">Malta</option>
-        <option value="mexico">Mexico</option>
-        <option value="ottoman">Ottoman</option>
-        <option value="portugal">Portugal</option>
-        <option value="russia">Russia</option>
-        <option value="spain">Spain</option>
-        <option value="sweden">Sweden</option>
-        <option value="usa">USA</option>
-    </select>
+    <label>All Civilizations
+        <select id="civ-selection" name="civs" size="5">
+            <option value="aztec">Aztec</option>
+            <option value="british">British</option>
+            <option value="china">China</option>
+            <option value="dutch">Dutch</option>
+            <option value="ethiopia">Ethiopia</option>
+            <option value="french">French</option>
+            <option value="germany">Germany</option>
+            <option value="haudenosaunee">Haudenosaunee</option>
+            <option value="hausa">Hausa</option>
+            <option value="inca">Inca</option>
+            <option value="india">India</option>
+            <option value="italy">Italy</option>
+            <option value="japan">Japan</option>
+            <option value="lakota">Lakota</option>
+            <option value="malta">Malta</option>
+            <option value="mexico">Mexico</option>
+            <option value="ottoman">Ottoman</option>
+            <option value="portugal">Portugal</option>
+            <option value="russia">Russia</option>
+            <option value="spain">Spain</option>
+            <option value="sweden">Sweden</option>
+            <option value="usa">USA</option>
+        </select>
+    </label>
     <button type="button" onclick="addToList()">Add --></button>
     <button type="button" onclick="revertFromList()"><-- Revert</button>
-    <select id="civ-selected"/>
+    <label>Selected Civilizations
+        <select id="civ-selected"></select>
+    </label>
 </form>
 <script th:src="@{/js/CivilizationSelection.js}"></script>
 </body>
