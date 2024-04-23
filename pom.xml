@@ -76,8 +76,7 @@
 						</goals>
 						<phase>generate-test-sources</phase>
 						<configuration>
-							<outputDirectory>/docsOwn</outputDirectory>
-							<outputFilename>testdiagram1.txt</outputFilename>
+							<outputFilename>ClassDiagram.puml</outputFilename>
 							<scanPackages>
 								<scanPackage>
 									ch.swat.choosy
