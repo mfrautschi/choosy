@@ -27,7 +27,7 @@ public class TeamController {
     }
 
     @PostMapping(path="/generate")
-    public String generateTeamVaraiation(final @RequestParam String participants, final @RequestParam String teamvariant, final Model model){
+    public String generateTeamVariation(final @RequestParam String participants, final @RequestParam String teamvariant, final Model model){
         logger.debug("POST Request received");
         Map<TeamVariant, Map<String, String>> teams;
         if(teamvariant.equals("TALL")){

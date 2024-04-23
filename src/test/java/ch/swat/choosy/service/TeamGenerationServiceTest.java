@@ -69,9 +69,9 @@ class TeamGenerationServiceTest {
     private void printMap(Map<TeamVariant, Map<String, String>> map) {
         for (TeamVariant variant : map.keySet()) {
             Map<String, String> teams = map.get(variant);
-            logger.info("Team Variant " + variant.toString());
+            logger.info("Team Variant {}", variant.toString());
             for (String key : teams.keySet()) {
-                logger.info("In Team " + key + " are " + teams.get(key));
+                logger.info("In Team {} are {}", key, teams.get(key));
             }
             logger.info("##################");
         }
