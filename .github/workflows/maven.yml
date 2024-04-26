@@ -29,14 +29,3 @@ jobs:
         with:
           name: SpringBoot Report               # Name of the folder
           path: target/site/serenity/           # Path to test results
-
-  generate_plantuml:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Source
-        uses: actions/checkout@v2
-
-      - name: Generate SVG Diagrams
-        uses: holowinski/plantuml-github-action@main
-        with:
-          args: -v -tsvg diagrams/*.puml
