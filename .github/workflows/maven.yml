@@ -30,6 +30,12 @@ jobs:
           name: SpringBoot Report               # Name of the folder
           path: target/site/serenity/           # Path to test results
 
+  generate-pages:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: asciidoctor-ghpages
         uses: manoelcampos/asciidoctor-ghpages-action@v2
