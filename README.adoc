@@ -1,0 +1,11 @@
+= Choosy
+
+Team generation for a tournament
+
+== Motivation
+This project improvement is motivated by the SWAT module at HSLU, where we learn and practise modern development skills.
+
+== Installation
+To run this project
+
+* install the latest JRE
