@@ -1,0 +1,13 @@
+= Choosy
+mfrautschi
+3.0, July 29, 2022: AsciiDoc article template
+:toc:
+:icons: font
+:url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+
+
+This project enables the creation of teams for a tournament via REST interfaces.
+
+== Overview
+
+This project is a spring api. It runs with Java 21 and Maven.footnote:[https://maven.apache.org/[Maven Homepage]].
