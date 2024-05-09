@@ -16,7 +16,7 @@ public class TeamGenerationService {
      * @param participants all participants
      * @return  Map<Possible Team Variant, Map<TeamNr, List of Teammembers>
      */
-    public Map<TeamVariant, Map<String, List<String>>> generateAllPossibleTeams(String participants) {
+    public Map<TeamVariant, Map<String, List<String>>> generateAllPossibleTeams(final String participants) {
 
         Map<TeamVariant, Map<String, List<String>>> possibleTeams = new EnumMap<>(TeamVariant.class);
         calculatePossibleTeamVariants(participants.split(";"))
@@ -27,7 +27,7 @@ public class TeamGenerationService {
         return possibleTeams;
     }
 
-    private Map<String, List<String>> assignParticipantsToTeamsForEachVariant(TeamVariant variant, String[] participants) {
+    private Map<String, List<String>> assignParticipantsToTeamsForEachVariant(final TeamVariant variant, final String[] participants) {
 
         Map<String, List<String>> teams = new HashMap<>();
         List<String> part = new ArrayList<>(Arrays.stream(participants).toList());
@@ -54,7 +54,7 @@ public class TeamGenerationService {
      * @param teamVariant choosed TeamVariant
      * @return Map with TeamVariant as Key and generated Teams as List
      */
-    public Map<TeamVariant, Map<String, List<String>>> generatePossibleTeam(String participants, TeamVariant teamVariant) {
+    public Map<TeamVariant, Map<String, List<String>>> generatePossibleTeam(final String participants, final TeamVariant teamVariant) {
         Map<TeamVariant, Map<String, List<String>>> possibleTeams = new EnumMap<>(TeamVariant.class);
         if (calculatePossibleTeamVariants(participants.split(";")).contains(teamVariant)) {
             possibleTeams.put(teamVariant, assignParticipantsToTeamsForEachVariant(teamVariant, participants.split(";")));
@@ -68,7 +68,7 @@ public class TeamGenerationService {
      * @param participants all participants
      * @return List of possible TeamVariants
      */
-    public List<TeamVariant> calculatePossibleTeamVariants(String[] participants) {
+    public List<TeamVariant> calculatePossibleTeamVariants(final String[] participants) {
         return Arrays.stream(TeamVariant.values())
                      .filter(teamVariant -> participants.length % teamVariant.size() == 0 && participants.length != teamVariant.size())
                      .toList();

@@ -16,7 +16,7 @@ public class ChoosyController {
     private final Logger logger = LoggerFactory.getLogger(ChoosyController.class);
 
     @GetMapping(path="/")
-    public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void index(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         logger.debug("GET Request on index");
         RequestDispatcher dispatcher = request.getRequestDispatcher("/team/");
         dispatcher.forward(request, response);
