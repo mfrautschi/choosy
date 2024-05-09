@@ -1,6 +1,6 @@
 package ch.swat.choosy.service;
 
-import ch.swat.choosy.Participant;
+import ch.swat.choosy.data.Participant;
 import ch.swat.choosy.bo.TeamVariant;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static ch.swat.choosy.Participant.*;
+import static ch.swat.choosy.data.Participant.*;
 
 class TeamGenerationServiceTest {
     private TeamGenerationService teamGenerationService;

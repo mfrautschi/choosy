@@ -19,9 +19,9 @@ public enum TeamVariant {
      * @return TeamVariant if size exists ; null if no TeamVariant with the size is found
      */
     public static TeamVariant valueOf(int size){
-        for(TeamVariant en : TeamVariant.values()){
-            if(en.size==size){
-                return en;
+        for(TeamVariant teamVariant : TeamVariant.values()){
+            if(teamVariant.size==size){
+                return teamVariant;
             }
         }
         return null;

@@ -1,4 +1,4 @@
-package ch.swat.choosy;
+package ch.swat.choosy.data;
 
 public enum Participant {
     participants2("Bruno;Josef"),
@@ -20,7 +20,4 @@ public enum Participant {
     public String names() {
         return names;
     }
-
-
-
 }

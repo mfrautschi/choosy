@@ -18,23 +18,23 @@ public class TeamGenerationService {
      */
     public Map<TeamVariant, Map<String, List<String>>> generateAllPossibleTeams(String participants) {
 
-        Map<TeamVariant, Map<String, List<String>>> assignedTeams = new EnumMap<>(TeamVariant.class);
+        Map<TeamVariant, Map<String, List<String>>> possibleTeams = new EnumMap<>(TeamVariant.class);
         calculatePossibleTeamVariants(participants.split(";"))
                 .stream()
                 .parallel()
-                .forEach(v -> assignedTeams.put(v, assignParticipantsToTeams(v, participants.split(";"))));
+                .forEach(teamVariant -> possibleTeams.put(teamVariant, assignParticipantsToTeamsForEachVariant(teamVariant, participants.split(";"))));
 
-        return assignedTeams;
+        return possibleTeams;
     }
 
-    private Map<String, List<String>> assignParticipantsToTeams(TeamVariant variant, String[] participants) {
+    private Map<String, List<String>> assignParticipantsToTeamsForEachVariant(TeamVariant variant, String[] participants) {
 
         Map<String, List<String>> teams = new HashMap<>();
         List<String> part = new ArrayList<>(Arrays.stream(participants).toList());
 
         IntStream.rangeClosed(1, (part.size() / variant.size()))
                  .forEach(i -> IntStream.rangeClosed(1, variant.size())
-                                        .forEach(c -> {
+                                        .forEach(j -> {
                                             if ((teams.get(String.valueOf(i)) == null)) {
                                                 List<String> list = new ArrayList<>();
                                                 list.add(part.remove(ThreadLocalRandom.current().nextInt(part.size())));
@@ -48,18 +48,18 @@ public class TeamGenerationService {
 
     /**
      * Checks if demanded TeamVariant is possible to the amount of participants.
-     * Assigns participants to the teams
+     * Assigns participants to the teams for this TeamVariant
      *
      * @param participants all participants
-     * @param variant choosed TeamVariant
+     * @param teamVariant choosed TeamVariant
      * @return Map with TeamVariant as Key and generated Teams as List
      */
-    public Map<TeamVariant, Map<String, List<String>>> generatePossibleTeam(String participants, TeamVariant variant) {
-        Map<TeamVariant, Map<String, List<String>>> assignedTeams = new EnumMap<>(TeamVariant.class);
-        if (calculatePossibleTeamVariants(participants.split(";")).contains(variant)) {
-            assignedTeams.put(variant, assignParticipantsToTeams(variant, participants.split(";")));
+    public Map<TeamVariant, Map<String, List<String>>> generatePossibleTeam(String participants, TeamVariant teamVariant) {
+        Map<TeamVariant, Map<String, List<String>>> possibleTeams = new EnumMap<>(TeamVariant.class);
+        if (calculatePossibleTeamVariants(participants.split(";")).contains(teamVariant)) {
+            possibleTeams.put(teamVariant, assignParticipantsToTeamsForEachVariant(teamVariant, participants.split(";")));
         }
-        return assignedTeams;
+        return possibleTeams;
     }
 
     /**
@@ -70,7 +70,7 @@ public class TeamGenerationService {
      */
     public List<TeamVariant> calculatePossibleTeamVariants(String[] participants) {
         return Arrays.stream(TeamVariant.values())
-                     .filter(v -> participants.length % v.size() == 0 && participants.length != v.size())
+                     .filter(teamVariant -> participants.length % teamVariant.size() == 0 && participants.length != teamVariant.size())
                      .toList();
     }
 }

@@ -22,13 +22,13 @@ public class TeamController {
     }
 
     @GetMapping(path="/")
-    public String initialTeam(){
+    public String initialTeamRequest(){
         logger.debug("GET Request received - initialTeam");
         return "homeForm";
     }
 
     @PostMapping(path="/generate")
-    public String generateTeamVariation(final @RequestParam String participants, final @RequestParam String teamvariant, final Model model){
+    public String generateTeamsWithVariation(final @RequestParam String participants, final @RequestParam String teamvariant, final Model model){
         logger.debug("POST Request received");
         Map<TeamVariant, Map<String, List<String>>> teams;
         if(teamvariant.equals("TALL")){
