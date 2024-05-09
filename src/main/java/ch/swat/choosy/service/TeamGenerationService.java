@@ -9,9 +9,16 @@ import java.util.stream.IntStream;
 
 @Service
 public class TeamGenerationService {
-    public Map<TeamVariant, Map<String, String>> generateAllPossibleTeams(String participants) {
+    /**
+     * Returns a Map with keyvalues of all possible Teamvariations and the corresponding map with keyvalues as the teamnumber and values are the teams as list
+     * Map<Possible Team Variant, Map<TeamNr, List of Teammembers>
+     *
+     * @param participants all participants
+     * @return  Map<Possible Team Variant, Map<TeamNr, List of Teammembers>
+     */
+    public Map<TeamVariant, Map<String, List<String>>> generateAllPossibleTeams(String participants) {
 
-        Map<TeamVariant, Map<String, String>> assignedTeams = new EnumMap<>(TeamVariant.class);
+        Map<TeamVariant, Map<String, List<String>>> assignedTeams = new EnumMap<>(TeamVariant.class);
         calculatePossibleTeamVariants(participants.split(";"))
                 .stream()
                 .parallel()
@@ -20,18 +27,20 @@ public class TeamGenerationService {
         return assignedTeams;
     }
 
-    private Map<String, String> assignParticipantsToTeams(TeamVariant variant, String[] participants) {
+    private Map<String, List<String>> assignParticipantsToTeams(TeamVariant variant, String[] participants) {
 
-        Map<String, String> teams = new HashMap<>();
+        Map<String, List<String>> teams = new HashMap<>();
         List<String> part = new ArrayList<>(Arrays.stream(participants).toList());
 
         IntStream.rangeClosed(1, (part.size() / variant.size()))
                  .forEach(i -> IntStream.rangeClosed(1, variant.size())
                                         .forEach(c -> {
                                             if ((teams.get(String.valueOf(i)) == null)) {
-                                                teams.put(String.valueOf(i), part.remove(ThreadLocalRandom.current().nextInt(part.size())));
+                                                List<String> list = new ArrayList<>();
+                                                list.add(part.remove(ThreadLocalRandom.current().nextInt(part.size())));
+                                                teams.put(String.valueOf(i), list);
                                             } else {
-                                                teams.put(String.valueOf(i), teams.get(String.valueOf(i)) + ";" + part.remove(ThreadLocalRandom.current().nextInt(part.size())));
+                                                teams.get(String.valueOf(i)).add(part.remove(ThreadLocalRandom.current().nextInt(part.size())));
                                             }
                                         }));
         return teams;
@@ -41,12 +50,12 @@ public class TeamGenerationService {
      * Checks if demanded TeamVariant is possible to the amount of participants.
      * Assigns participants to the teams
      *
-     * @param participants
-     * @param variant
-     * @return Map with TeamVariant as Key and generated Teams as CSV
+     * @param participants all participants
+     * @param variant choosed TeamVariant
+     * @return Map with TeamVariant as Key and generated Teams as List
      */
-    public Map<TeamVariant, Map<String, String>> generatePossibleTeam(String participants, TeamVariant variant) {
-        Map<TeamVariant, Map<String, String>> assignedTeams = new EnumMap<>(TeamVariant.class);
+    public Map<TeamVariant, Map<String, List<String>>> generatePossibleTeam(String participants, TeamVariant variant) {
+        Map<TeamVariant, Map<String, List<String>>> assignedTeams = new EnumMap<>(TeamVariant.class);
         if (calculatePossibleTeamVariants(participants.split(";")).contains(variant)) {
             assignedTeams.put(variant, assignParticipantsToTeams(variant, participants.split(";")));
         }
@@ -56,7 +65,7 @@ public class TeamGenerationService {
     /**
      * If array-size modulo TeamVariant.size() == 0, the TeamVariant is possible
      *
-     * @param participants
+     * @param participants all participants
      * @return List of possible TeamVariants
      */
     public List<TeamVariant> calculatePossibleTeamVariants(String[] participants) {

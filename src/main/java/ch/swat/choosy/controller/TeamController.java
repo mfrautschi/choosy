@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,7 +30,7 @@ public class TeamController {
     @PostMapping(path="/generate")
     public String generateTeamVariation(final @RequestParam String participants, final @RequestParam String teamvariant, final Model model){
         logger.debug("POST Request received");
-        Map<TeamVariant, Map<String, String>> teams;
+        Map<TeamVariant, Map<String, List<String>>> teams;
         if(teamvariant.equals("TALL")){
             teams = teamGenerationService.generateAllPossibleTeams(participants);
         } else {

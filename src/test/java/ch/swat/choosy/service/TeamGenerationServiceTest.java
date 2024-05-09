@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static ch.swat.choosy.Participant.*;
@@ -29,14 +30,14 @@ class TeamGenerationServiceTest {
     @EnumSource(Participant.class)
     void generateAllPossibleTeamsNoOneTeams(Participant participant) {
         TeamVariant variant = TeamVariant.valueOf(participant.names().split(";").length);
-        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generatePossibleTeam(participant.names(), variant);
+        Map<TeamVariant, Map<String, List<String>>> map = teamGenerationService.generatePossibleTeam(participant.names(), variant);
         Assertions.assertEquals(Collections.emptyMap(), map);
     }
 
     @ParameterizedTest
     @EnumSource(Participant.class)
     void generateAllPossibleTeamsEvenParticipantCount(Participant participant) {
-        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
+        Map<TeamVariant, Map<String, List<String>>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
         int length = participant.names().split(";").length;
         if (length % 2 == 0 && length != 2) {
             Assertions.assertNotEquals(Collections.emptyMap(), map);
@@ -49,7 +50,7 @@ class TeamGenerationServiceTest {
     @ParameterizedTest
     @EnumSource(Participant.class)
     void generateAllPossibleTeamsRowOfThreeParticipantCount(Participant participant) {
-        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
+        Map<TeamVariant, Map<String, List<String>>> map = teamGenerationService.generateAllPossibleTeams(participant.names());
         int length = participant.names().split(";").length;
         if (length % 3 == 0 && length != 3) {
             Assertions.assertNotEquals(Collections.emptyMap(), map);
@@ -61,14 +62,14 @@ class TeamGenerationServiceTest {
 
     @Test
     void generateAllPossibleTeams() {
-        Map<TeamVariant, Map<String, String>> map = teamGenerationService.generateAllPossibleTeams(participants10.names());
+        Map<TeamVariant, Map<String, List<String>>> map = teamGenerationService.generateAllPossibleTeams(participants10.names());
         Assertions.assertNotEquals(Collections.emptyMap(), map);
         printMap(map);
     }
 
-    private void printMap(Map<TeamVariant, Map<String, String>> map) {
+    private void printMap(Map<TeamVariant, Map<String, List<String>>> map) {
         for (TeamVariant variant : map.keySet()) {
-            Map<String, String> teams = map.get(variant);
+            Map<String, List<String>> teams = map.get(variant);
             logger.info("Team Variant {}", variant.toString());
             for (String key : teams.keySet()) {
                 logger.info("In Team {} are {}", key, teams.get(key));
@@ -79,21 +80,21 @@ class TeamGenerationServiceTest {
 
     @Test
     void generatePossible2erTeam() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T2ER);
+        Map<TeamVariant, Map<String, List<String>>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T2ER);
         Assertions.assertNotEquals(Collections.emptyMap(), teams);
         printMap(teams);
     }
 
     @Test
     void generatePossible5erTeam() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T5ER);
+        Map<TeamVariant, Map<String, List<String>>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T5ER);
         Assertions.assertNotEquals(Collections.emptyMap(), teams);
         printMap(teams);
     }
 
     @Test
     void generatePossibleTeamWrongTeamVariant() {
-        Map<TeamVariant, Map<String, String>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T4ER);
+        Map<TeamVariant, Map<String, List<String>>> teams = teamGenerationService.generatePossibleTeam(participants10.names(), TeamVariant.T4ER);
         Assertions.assertEquals(Collections.emptyMap(), teams);
     }
 
