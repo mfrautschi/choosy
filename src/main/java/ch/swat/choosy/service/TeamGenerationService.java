@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 @Service
 public class TeamGenerationService {
@@ -23,19 +24,27 @@ public class TeamGenerationService {
 
         Map<String, String> teams = new HashMap<>();
         List<String> part = new ArrayList<>(Arrays.stream(participants).toList());
-        int anzTeams = part.size() / variant.size();
-        for (int i = 1; i <= anzTeams; i++) {
-            for (int c = 1; c <= variant.size(); c++) {
-                if (teams.get(String.valueOf(i)) == null) {
-                    teams.put(String.valueOf(i), part.remove(ThreadLocalRandom.current().nextInt(part.size())));
-                } else {
-                    teams.put(String.valueOf(i), teams.get(String.valueOf(i)) + ";" + part.remove(ThreadLocalRandom.current().nextInt(part.size())));
-                }
-            }
-        }
+
+        IntStream.rangeClosed(1, (part.size() / variant.size()))
+                 .forEach(i -> IntStream.rangeClosed(1, variant.size())
+                                        .forEach(c -> {
+                                            if ((teams.get(String.valueOf(i)) == null)) {
+                                                teams.put(String.valueOf(i), part.remove(ThreadLocalRandom.current().nextInt(part.size())));
+                                            } else {
+                                                teams.put(String.valueOf(i), teams.get(String.valueOf(i)) + ";" + part.remove(ThreadLocalRandom.current().nextInt(part.size())));
+                                            }
+                                        }));
         return teams;
     }
 
+    /**
+     * Checks if demanded TeamVariant is possible to the amount of participants.
+     * Assigns participants to the teams
+     *
+     * @param participants
+     * @param variant
+     * @return Map with TeamVariant as Key and generated Teams as CSV
+     */
     public Map<TeamVariant, Map<String, String>> generatePossibleTeam(String participants, TeamVariant variant) {
         Map<TeamVariant, Map<String, String>> assignedTeams = new EnumMap<>(TeamVariant.class);
         if (calculatePossibleTeamVariants(participants.split(";")).contains(variant)) {
@@ -44,10 +53,15 @@ public class TeamGenerationService {
         return assignedTeams;
     }
 
+    /**
+     * If array-size modulo TeamVariant.size() == 0, the TeamVariant is possible
+     *
+     * @param participants
+     * @return List of possible TeamVariants
+     */
     public List<TeamVariant> calculatePossibleTeamVariants(String[] participants) {
-        return Arrays
-                .stream(TeamVariant.values())
-                .filter(v -> participants.length % v.size() == 0 && participants.length != v.size())
-                .toList();
+        return Arrays.stream(TeamVariant.values())
+                     .filter(v -> participants.length % v.size() == 0 && participants.length != v.size())
+                     .toList();
     }
 }
