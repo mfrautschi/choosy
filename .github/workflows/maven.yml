@@ -30,6 +30,14 @@ jobs:
           name: SpringBoot Report               # Name of the folder
           path: target/site/serenity/           # Path to test results
 
+      - name: Generate Test Coverage Report
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn verify sonar:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=mfrautschi \
+            -Dsonar.projectKey=mfrautschi_choosy
+
   generate-pages:
 
     runs-on: ubuntu-latest
