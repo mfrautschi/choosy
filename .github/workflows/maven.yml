@@ -34,9 +34,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn verify sonar:sonar \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=mfrautschi \
-            -Dsonar.projectKey=mfrautschi_choosy
+          -Dsonar.host.url="https://sonarcloud.io" \
+          -Dsonar.organization=mfrautschi \
+          -Dsonar.projectKey=mfrautschi_choosy
 
   generate-pages:
 
