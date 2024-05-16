@@ -9,5 +9,60 @@ mfrautschi
 This project enables the creation of teams for a tournament via REST interfaces.
 
 == Overview
-
 This project is a spring api. It runs with Java 21 and Maven.footnote:[https://maven.apache.org/[Maven Homepage]].
+
+
+=== Quality attributes
+Which quality attributes of source code do you use during your coding activities?
+
+Sorted by importance:
+
+1. reliability - The stability and freedom from errors of the code, including the handling of exceptional situations and edge cases.
+2. maintainability - The ability to easily change or extend the code without causing undesirable side effects. This includes aspects such as modularity, consistency, and documentation.
+3. readability - The clarity and comprehensibility of the code, including the naming of variables, comments and structuring.
+4. security - The resilience of the code to potential attacks or security vulnerabilities.
+5. efficiency - The resource utilisation of the code, including runtime and memory requirements. Efficient code leads to faster execution and lower resource consumption.
+6. Portability - Since Java inherently aims for portability, less attention is paid to this quality attribute.
+
+=== Logging
+Logging - I Log with Log4J 2 from the spring-boot-starter-log4j2 dependency from spring boot. I use SLF4J as API and Log4J 2 as engine, simply because I can, and it's easy to switch back to Logback if Log4J2 ever has such a serious security vulnerability again.
+
+==== What i log
+- I log every sent request to the API, but mostly only in debugging mode, because this system is not in production.
+- I would also log every request to the database, so i can track on the database which request on the API, does which request on the database. But not with content, just the type of database-request. As example, is it a SELECT, INSERT, UPDATE or DELETE Statement.
+- If my application manipulates data and multiple users can use the Application I would log, who did which manipulation for traceability and integrity
+- If my application had a login, I log every failed and successfully log-attempt: Username + IP + Timestamp.
+
+
+=== Creation of Objects
+This project uses spring boot, which offers dependency injection. So every service I use in other classes, I use dependency injection. For every object I use in other objects, I try to use dependency injection
+
+=== Persistence
+In this project, no persistence is needed for now. I would use JPA (Java Persistence API) and Hibernate, which are commonly used in Spring projects.
+
+=== Error Handling
+Because this project is a web app, I respond with the corresponding http error codes and clean error sites, which not only helps the user to find his way around; they also should help him to archive his goal with recommended sites. But this is just wishfully thinking for now.
+
+Because this should be a modern java application, I would never trow checked exceptions because java streams can't handle them. So I choose unchecked exceptions where it makes sense completely.
+
+=== Why software is strategic for the company I am working for
+For my company, a health insurance company, software is indeed an important factor for the success of the company.
+This is because there are so many bills and services coming in and going out that without a computer system,
+a lot more staff would be needed than now.
+Especially in this day and age, when healthcare prices continue to skyrocket.
+So software helps a lot to keep processing costs down.
+For this and many other reasons, the software used should be strategically planned and chosen wisely.
+This is because in the end, if the company makes a big mistake,
+it will have to increase health insurance premiums
+and many customers will probably switch to another health insurance company.
+Especially in general insurance,
+because there is much less competition (mainly caused by legislation) than in the supplementary insurance sector.
+So once the company has decided on ERP software, it cannot afford to simply switch to another ERP solution.
+That would cost so much money.
+This is
+because every other system in the company's ecosystem has
+to work with the ERP and every specific way the company does something also has
+to have a solution developed in the new software,
+which costs again.
+So, the ERP development company is very powerful if you are a client of theirs. +
+So, choose your provider wisely.
